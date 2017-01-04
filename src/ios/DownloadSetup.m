@@ -10,7 +10,10 @@
 
 @implementation DownloadSetup
 
-// set default values for download task
+/*!
+ * @brief set default values for download task
+ * @param call back id and Url
+ */
 -(id)initWithFileCallbackId:(NSString *)callbackId andDownloadSource:(NSString *)source{
     if (self == [super init]) {
         
