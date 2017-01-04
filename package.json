@@ -1,0 +1,17 @@
+{
+  "name": "BackgroundDownload",
+  "version": "0.0.1",
+  "description": "W2s Background Download ios ",
+  "cordova": {
+    "id": "cordova-plugin-background-download",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "w2s",
+  "license": "ISC"
+}
