@@ -439,7 +439,7 @@
     
     // create local directory path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *documentString = [[paths objectAtIndex:0] stringByAppendingString:@"/LocalDatabase"];
+    NSString *documentString = [[paths objectAtIndex:0] stringByAppendingString:@"/LocalDatabase/"];
     
     NSLog(@"local path %@",newURL);
 
@@ -490,6 +490,14 @@
                                         error:&error];
     
     if (success) {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"File save at" message:filePath preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:ok];
+        
+        [self.viewController presentViewController:alertController animated:YES completion:nil];
+        
         // Change the flag values of the respective FileDownloadInfo object.
         int index = [self getFileDownloadInfoIndexWithTaskIdentifier:[downloadTask.taskDescription integerValue]];
         DownloadSetup *downloadSetup = [downloadArray objectAtIndex:index];
