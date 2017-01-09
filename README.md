@@ -75,14 +75,10 @@ successcallback returns three objects one by one
 
 ```json
 {
-  data : {
-
   callback : {
         
         id : '<contains the call backid >'   
   }
-
-  }  
 }
 
 ```
@@ -90,15 +86,13 @@ successcallback returns three objects one by one
 
 ```json
 {
-  data : {
-
+ 
   progress : {
         
         bytesReceived : '<contains the bytes to receive >',
         totalBytesToReceive : '<contains the total bytes to receive>',
   }
-
-  }  
+ 
 }
 
 ```
@@ -107,15 +101,12 @@ successcallback returns three objects one by one
 
 ```json
 {
-  data : {
 
   complete : {
         
         path : '<File Path>',
      
-  }
-
-  }  
+  } 
 }
 
 ```
