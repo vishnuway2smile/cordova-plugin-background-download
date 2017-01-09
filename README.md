@@ -41,11 +41,11 @@ cordova plugin remove cordova-plugin-background-download
 The plugin creates the object `BackgroundDownload` with  the following methods:
 
 ```javascript
-1. startDownload(url, successcallback, errorcallback)
-2. cancelDownload(callbackId, successcallback, errorcallback)
-3. pauseDownload(callbackId, successcallback, errorcallback)
-4. resumeDownload(callbackId, successcallback, errorcallback)
-5. statusOfDownload(callbackId, successcallback, errorcallback)
+1. startDownload(successcallback, errorcallback,url)
+2. cancelDownload(successcallback, errorcallback,callbackId)
+3. pauseDownload(successcallback, errorcallback,callbackId)
+4. resumeDownload(successcallback, errorcallback,callbackId)
+5. statusOfDownload(successcallback, errorcallback,callbackId)
 ```
 ### Plugin initialization
 The plugin and its methods are not available before the *deviceready* event has been fired.
@@ -58,7 +58,7 @@ document.addEventListener('deviceready', function () {
 
 ### Start the download
 
- `BackgroundDownload.startDownload(url, successcallback, errorcallback)`, this method initialize the download using background thread. And also It returns thread id and progress percentage. Have to save callbackId for other download actions 
+ `BackgroundDownload.startDownload(successcallback, errorcallback,url)`, this method initialize the download using background thread. And also It returns thread id and progress percentage. Have to save callbackId for other download actions 
  
 The method works as a function and gets the following arguments:
  - url: file url to download
@@ -66,7 +66,7 @@ The method works as a function and gets the following arguments:
  - errorcallback: method to get callback of plugin failure or native errors
   
 ```javascript
-    BackgroundDownload.startDownload(url, successcallback, errorcallback);
+    BackgroundDownload.startDownload(successcallback, errorcallback,url);
 ```
 
 successcallback returns three objects one by one 
@@ -125,39 +125,39 @@ Refer the Sample App to Handle the Callbacks
 
 ### Stop the download
 
- `BackgroundDownload.cancelDownload(callbackId, successcallback, errorcallback)`, this method stop the download and kills the background thread by callbackId.
+ `BackgroundDownload.cancelDownload(successcallback, errorcallback,callbackId)`, this method stop the download and kills the background thread by callbackId.
 
 ```javascript
-    BackgroundDownload.cancelDownload(callbackId, successcallback, errorcallback);
+    BackgroundDownload.cancelDownload(successcallback, errorcallback,callbackId);
 ```
 
 
 ### Pause the download
 
- `BackgroundDownload.pauseDownload(callbackId, successcallback, errorcallback)`, this method Pause the download and makes the  background thread in suspend mode by callbackId.
+ `BackgroundDownload.pauseDownload(successcallback, errorcallback,callbackId)`, this method Pause the download and makes the  background thread in suspend mode by callbackId.
 
 ```javascript
-    BackgroundDownload.pauseDownload(callbackId, successcallback, errorcallback);
+    BackgroundDownload.pauseDownload(successcallback, errorcallback,callbackId);
 ```
 
 ### Resume the download
 
- `BackgroundDownload.resumeDownload(callbackId, successcallback, errorcallback)`, this method Resume the download and makes the background thread in download mode by callbackId.
+ `BackgroundDownload.resumeDownload(successcallback, errorcallback,callbackId)`, this method Resume the download and makes the background thread in download mode by callbackId.
 
 ```javascript
-    BackgroundDownload.resumeDownload(callbackId, successcallback, errorcallback);
+    BackgroundDownload.resumeDownload(successcallback, errorcallback,callbackId);
 ```
 
 ### Status of the download
 
- `BackgroundDownload.statusOfDownload(callbackId, successcallback, errorcallback)`, this method get's the status of the download by callbackId.
+ `BackgroundDownload.statusOfDownload(successcallback, errorcallback,callbackId)`, this method get's the status of the download by callbackId.
  
  The method works as a function and gets the following arguments:
  - successcallback: method to get callback of the download progress
  - errorcallback: method to get callback of plugin failure or native errors
   
 ```javascript
-    BackgroundDownload.statusOfDownload(callbackId, successcallback, errorcallback);
+    BackgroundDownload.statusOfDownload(successcallback, errorcallback,callbackId);
 ```    
 ## Examples 
 
