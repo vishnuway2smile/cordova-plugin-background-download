@@ -10,6 +10,9 @@
 
 @interface BackgroundDownload : CDVPlugin <NSURLSessionDelegate>
 
+
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+
 /*!
  * @brief declaration initiate download in this method by call from Java Script
  * @param CDVInvokedUrlCommand from Cordova
