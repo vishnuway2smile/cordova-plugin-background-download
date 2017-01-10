@@ -28,6 +28,11 @@
 
 @implementation BackgroundDownload
 
+- (void) awakeFromNib{
+    [super awakeFromNib];
+     self.backgroundTask = UIBackgroundTaskInvalid;
+}
+
 /*!
  * @brief initiate download process method definition
  * @param CDVInvokedUrlCommand from Cordova
@@ -48,6 +53,12 @@
     
     NSLog(@"callback id %@",command.callbackId);
     
+    self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
     // call download url with download object
     [self downloadByURL:downloadSetup];
 }
@@ -55,7 +66,7 @@
 
 
 /*!
- * @brief initiate download process method definition
+ * @brief find required download set up object
  * @param task identifier for get a require download setup object
  */
 -(int)getFileDownloadInfoIndexWithTaskIdentifier:(unsigned long)taskIdentifier{
@@ -186,7 +197,10 @@
     }
 }
 
-// resume download
+/*!
+ * @brief Resume Method
+ * @param CDVInvokedUrlCommand from Cordova for get call back id
+ */
 - (void) resumeDownloadTask :(CDVInvokedUrlCommand*)command{
     
     NSLog(@"resumeDownloadTask id %@",[[command arguments] objectAtIndex:0]);
@@ -281,7 +295,10 @@
     
 }
 
-// cancel download
+/*!
+ * @brief Cancel Method
+ * @param CDVInvokedUrlCommand from Cordova for get call back id
+ */
 - (void) cancelDownloadTask :(CDVInvokedUrlCommand*)command{
     
     NSLog(@"cancelDownloadTask id %@",[[command arguments] objectAtIndex:0]);
@@ -344,7 +361,10 @@
     
 }
 
-// return download status
+/*!
+ * @brief get download status
+ * @param CDVInvokedUrlCommand from Cordova for get call back id
+ */
 - (void) downloadStatus :(CDVInvokedUrlCommand*)command{
     
     NSLog(@"id %@",[[command arguments] objectAtIndex:0]);
@@ -491,12 +511,12 @@
     
     if (success) {
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"File save at" message:filePath preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:ok];
-        
-        [self.viewController presentViewController:alertController animated:YES completion:nil];
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"File save at" message:filePath preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+//        [alertController addAction:ok];
+//        
+//        [self.viewController presentViewController:alertController animated:YES completion:nil];
         
         // Change the flag values of the respective FileDownloadInfo object.
         int index = [self getFileDownloadInfoIndexWithTaskIdentifier:[downloadTask.taskDescription integerValue]];
@@ -541,6 +561,12 @@
         [self.commandDelegate sendPluginResult:result callbackId:downloadSetup.callbackId];
     }
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    });
+    
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes {
@@ -555,13 +581,13 @@
     
     DownloadSetup *downloadSetup = [downloadArray objectAtIndex:index];
     
-    NSLog(@"log %d",index);
+//    NSLog(@"log %d",index);
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         // Calculate the progress.
         downloadSetup.downloadProgress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
         
-        NSLog(@"download progress %0.2f %% Call back Id  %@ ",downloadSetup.downloadProgress*100,downloadSetup.callbackId);
+//        NSLog(@"download progress %0.2f %% Call back Id  %@ ",downloadSetup.downloadProgress*100,downloadSetup.callbackId);
 
         // send callback id and progress by below cordova CDVPluginResult
         NSMutableDictionary* progressObj = [NSMutableDictionary dictionaryWithCapacity:1];
