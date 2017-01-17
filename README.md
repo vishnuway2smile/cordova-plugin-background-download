@@ -33,7 +33,7 @@ cordova plugin add <local path>
 
 To remove the plug-in, run the following command:
 ```bash
-cordova plugin remove cordova-plugin-background-download
+cordova plugin remove cordova-plugin-background-downloader
 ```
 
 
